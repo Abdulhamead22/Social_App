@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/layout/modules/register/cubit_register/register_cubit.dart';
 import 'package:flutter_application_1/layout/modules/register/cubit_register/register_state.dart';
+import 'package:flutter_application_1/layout/social_layout.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +24,13 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SocialRegisterCubit(),
       child: BlocConsumer<SocialRegisterCubit, SocialRegisterState>(
+          listener: (context, state) {
+      if (state is SocialCreateUserSuccesState) {
+        navigatFinish(context,const SocialLayout() );
+      } else {
+        
+      }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(),
@@ -57,7 +65,7 @@ class RegisterScreen extends StatelessWidget {
                           input: "Name",
                           icon: const Icon(Icons.person),
                           validate: (value) {
-                            if (value == null) {
+                            if (value == '') {
                               return "must have name";
                             }
                             return null;
@@ -72,7 +80,7 @@ class RegisterScreen extends StatelessWidget {
                           input: "Email",
                           icon: const Icon(Icons.email_outlined),
                           validate: (value) {
-                            if (value == null) {
+                            if (value == '') {
                               return "must have email";
                             }
                             return null;
@@ -87,7 +95,7 @@ class RegisterScreen extends StatelessWidget {
                           input: "Password",
                           icon: const Icon(Icons.lock_outline),
                           validate: (value) {
-                            if (value == null) {
+                            if (value == '') {
                               return "password is short";
                             }
                             return null;
@@ -111,7 +119,7 @@ class RegisterScreen extends StatelessWidget {
                           input: "Phonee",
                           icon: const Icon(Icons.phone),
                           validate: (value) {
-                            if (value == null) {
+                            if (value == '') {
                               return "must have phone";
                             }
                             return null;
@@ -126,12 +134,12 @@ class RegisterScreen extends StatelessWidget {
                             return defaultButton(
                               function: () {
                                 if (formkey.currentState!.validate()) {
-                                  // SocialRegisterCubit.get(context).userRegister(
-                                  //     email: emailController.text,
-                                  //     password: passwordController.text,
-                                  //     name: nameController.text,
-                                  //     phone: phoneController.text,
-                                  //     );
+                                  SocialRegisterCubit.get(context).userRegister(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      name: nameController.text,
+                                      phone: phoneController.text,
+                                      );
                                 }
                               },
                               text: "Register",
@@ -150,26 +158,7 @@ class RegisterScreen extends StatelessWidget {
             ),
           );
         },
-        listener: (context, state) {
-          //   if (state is SocialRegisterSuccesState) {
-          //  if (state.loginModel.status) {
-          //     print(state.loginModel.data?.token);
-          //    CacheHelper.saveData(
-          //            key: "token",
-          //             value: state.loginModel.data?.token)
-          //          .then(
-          //        (value) {
-          //          //عملتها عشان لما اعمل تسجيل خروج ثم اعاود تسجيل الدخول يقوم يدخل الجديد معاه مش يضل على القديم
-          //          isToken = state.loginModel.data?.token;
-          //          toast(state.loginModel.message, Colors.green);
-          //          navigatFinish(context, const SocialLayout());
-          //        },
-          //      );
-          //   } else {
-          //     toast(state.loginModel.message, Colors.red);
-          //   }
-          // }
-        },
+      
       ),
     );
   }

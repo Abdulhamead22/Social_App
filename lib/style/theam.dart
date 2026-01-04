@@ -28,6 +28,10 @@ ThemeData ligthTheam = ThemeData(
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
+
+    unselectedItemColor: Colors.grey,
+    backgroundColor: Colors.white,
+    elevation: 20.0,
   ),
   textTheme: const TextTheme(
     titleMedium: TextStyle(

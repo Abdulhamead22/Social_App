@@ -1,8 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/cache_helper.dart';
 import 'package:flutter_application_1/layout/modules/login/cubit_login/login_cubit.dart';
 import 'package:flutter_application_1/layout/modules/login/cubit_login/login_state.dart';
 import 'package:flutter_application_1/layout/modules/register/register_screen.dart';
+import 'package:flutter_application_1/layout/social_layout.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,9 +20,23 @@ class LoginScreen extends StatelessWidget {
     final FocusNode passwordfocusNode = FocusNode();
     return BlocProvider(
       create: (context) => SocialLoginCubit(),
-      child: BlocConsumer<SocialLoginCubit,SocialLoginState>(
+      child: BlocConsumer<SocialLoginCubit, SocialLoginState>(
         listener: (context, state) {
-          
+          if (state is SocialLoginErrorState) {
+            toast(state.error, Colors.red);
+          }
+          if (state is SocialLoginSuccesState) {
+            //عشان اقدر اصل لل uId ,, لازم ابعت model مع state
+            CacheHelper.saveData(
+              key: 'uId',
+              value: state.uId,
+            ).then(
+              (value) {
+                // ignore: use_build_context_synchronously
+                navigatFinish(context, const SocialLayout());
+              },
+            );
+          }
         },
         builder: (context, state) {
           return Scaffold(
@@ -56,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                           input: "Email",
                           icon: const Icon(Icons.email_outlined),
                           validate: (value) {
-                            if (value==null) {
+                            if (value == '') {
                               return "must have email";
                             }
                             return null;
@@ -71,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                           input: "Password",
                           icon: const Icon(Icons.lock_outline),
                           validate: (value) {
-                            if (value==null) {
+                            if (value == '') {
                               return "password is short";
                             }
                             return null;
@@ -102,16 +118,15 @@ class LoginScreen extends StatelessWidget {
                             return defaultButton(
                               function: () {
                                 if (formkey.currentState!.validate()) {
-                                  // SocialLoginCubit.get(context).userLogin(
-                                  //     email: emailController.text,
-                                  //     password: passwordController.text);
+                                  SocialLoginCubit.get(context).userLogin(
+                                      email: emailController.text,
+                                      password: passwordController.text);
                                 }
                               },
                               text: "Login",
                               isuper: true,
                             );
                           },
-                          
                           fallback: (context) =>
                               const Center(child: CircularProgressIndicator()),
                         ),
@@ -137,7 +152,8 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           );
-        }, ),
+        },
+      ),
     );
   }
 }
