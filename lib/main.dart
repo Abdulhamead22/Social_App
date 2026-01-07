@@ -23,7 +23,6 @@ void main() async {
   } else {
     widget = const LoginScreen();
   }
-  print('UID FROM CACHE: $uId');
   runApp(MyApp(
     startpage: widget,
   ));
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
       create: (context) => SocialCubit()..getUserData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        
         title: 'Flutter Demo',
         theme: ligthTheam,
         darkTheme: darkTheam,

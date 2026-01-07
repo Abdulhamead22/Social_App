@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
+import 'package:flutter_application_1/layout/modules/newpost/new_post_screen.dart';
 import 'package:flutter_application_1/style/icon_broken.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,11 @@ class SocialLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SocialNeewPostState) {
+          navigatTo(context, const NewPostScreen());
+        }
+      },
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
         return Scaffold(
@@ -21,7 +26,6 @@ class SocialLayout extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {}, icon: const Icon(IconBroken.Notification)),
-              
               IconButton(onPressed: () {}, icon: const Icon(IconBroken.Search)),
             ],
           ),
@@ -36,6 +40,8 @@ class SocialLayout extends StatelessWidget {
                   icon: Icon(IconBroken.Home), label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(IconBroken.Chat), label: 'Chat'),
+              BottomNavigationBarItem(
+                  icon: Icon(IconBroken.Paper_Upload), label: 'Post'),
               BottomNavigationBarItem(
                   icon: Icon(IconBroken.Location), label: 'Users'),
               BottomNavigationBarItem(

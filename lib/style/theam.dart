@@ -28,7 +28,6 @@ ThemeData ligthTheam = ThemeData(
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
-
     unselectedItemColor: Colors.grey,
     backgroundColor: Colors.white,
     elevation: 20.0,
@@ -39,6 +38,11 @@ ThemeData ligthTheam = ThemeData(
       fontSize: 14,
       color: Colors.black,
       height: 1.3,
+    ),
+    headlineMedium: TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 18,
+      height: 1.5,
     ),
   ),
 );
@@ -79,6 +83,11 @@ ThemeData darkTheam = ThemeData(
       fontSize: 14,
       color: Colors.white,
       height: 1.3,
+    ),
+    headlineMedium: TextStyle(
+    //  fontWeight: FontWeight.w600,
+      fontSize: 18,
+      height: 1.5,
     ),
   ),
 );

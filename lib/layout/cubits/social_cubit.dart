@@ -43,7 +43,11 @@ class SocialCubit extends Cubit<SocialState> {
     'Settings',
   ];
   void changeIndex(int index) {
-    currentIndex = index;
-    emit(SocialChangeNagBarState());
+    if (index == 2) {
+      emit(SocialNeewPostState());
+    } else {
+      currentIndex = index;
+      emit(SocialChangeNagBarState());
+    }
   }
 }
