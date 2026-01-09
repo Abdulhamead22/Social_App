@@ -80,6 +80,7 @@ Widget defaultButton({
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: fontsize,
+          color: Colors.white,
         ),
       ),
     ),
@@ -196,6 +197,3 @@ Container emailVerified() {
     ),
   );
 }
-
-
-

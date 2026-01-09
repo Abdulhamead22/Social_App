@@ -31,7 +31,7 @@ class FeedsScreen extends StatelessWidget {
             ),
           ),
           ListView.separated(
-            //عملتهم عشان انا وسط scrolView
+            //الاثنين الي تحت عملتهم عشان انا وسط scrolView 
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: 10,
