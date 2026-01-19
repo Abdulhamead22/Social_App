@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
+import 'package:flutter_application_1/layout/modules/edit_profile/edit_profile_screen.dart';
 import 'package:flutter_application_1/style/icon_broken.dart';
+import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -12,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
     return BlocConsumer<SocialCubit, SocialState>(
       listener: (context, state) {},
       builder: (context, state) {
-        var model = SocialCubit.get(context).model;
+        var userModel = SocialCubit.get(context).userModel;
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -34,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              model!.cover,
+                              userModel!.cover,
                             ),
                           ),
                         ),
@@ -47,7 +49,7 @@ class SettingsScreen extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 60,
                         backgroundImage: NetworkImage(
-                          model.image,
+                          userModel.image,
                         ),
                       ),
                     ),
@@ -58,11 +60,11 @@ class SettingsScreen extends StatelessWidget {
                 height: 5,
               ),
               Text(
-                model.name,
+                userModel.name,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Text(
-                model.bio,
+                userModel.bio,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               Padding(
@@ -150,7 +152,9 @@ class SettingsScreen extends StatelessWidget {
                     width: 10,
                   ),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      navigatTo(context,  EditProfileScreen());
+                    },
                     child: const Icon(
                       IconBroken.Edit,
                       size: 16,

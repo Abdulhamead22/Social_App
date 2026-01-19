@@ -1,37 +1,45 @@
 class SocialUserModel {
-  late String name;
-  late String email;
-  late String phone;
-  late String uId;
-  late String image;
-  late String cover;
-  late String bio;
+   final String name;
+  final String email;
+  final  String phone;
+  final  String uId;
+  final  String image;
+  final  String cover;
+  final  String bio;
 
   bool? isEmailVerified;
-  SocialUserModel({
-    required this.email,
+  SocialUserModel(
+     {
     required this.name,
     required this.phone,
-    required this.uId,
     required this.image,
-    required  this.cover,
+    required this.cover,
     required this.bio,
-
+    required this.email, required this.uId,
     this.isEmailVerified,
-    
   });
 
 //بستقبل المعلومات
-  SocialUserModel.fromJson(Map<String, dynamic>? json) {
-    email = json?['email'];
-    name = json?['name'];
-    phone = json?['phone'];
-    uId = json?['uId'];
-    image = json?['image'];
-    cover = json?['cover'];
-    bio = json?['bio'];
+  factory SocialUserModel.fromJson(Map<String, dynamic>? json) {
+    // email = json['email']??'';
+    // name = json['name']??'';
+    // phone = json['phone']??'';
+    // uId = json['uId']??'';
+    // image = json['image']??'';
+    // cover = json['cover']??'';
+    // bio = json['bio']??'';
 
-    isEmailVerified = json?['isEmailVerified'];
+    // isEmailVerified = json?['isEmailVerified']??'';
+    return SocialUserModel(
+      uId: json?['uId'] ?? '',
+      name: json?['name'] ?? '',
+      email: json?['email'] ?? '',
+      phone: json?['phone'] ?? '',
+      image: json?['image'] ?? '',
+      cover: json?['cover'] ?? '',
+      bio: json?['bio'] ?? '',
+      isEmailVerified: json?['isEmailVerified'] ?? false,
+    );
   }
 
 //بعطي المعلومات
@@ -43,9 +51,8 @@ class SocialUserModel {
       'uId': uId,
       'image': image,
       'cover': cover,
-
-'bio':bio,
-      'isEmailVerified':isEmailVerified,
+      'bio': bio,
+      'isEmailVerified': isEmailVerified,
     };
   }
-}
+ }
