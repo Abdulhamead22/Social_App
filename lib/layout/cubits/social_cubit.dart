@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
+import 'package:flutter_application_1/layout/models/post_model.dart';
 import 'package:flutter_application_1/layout/models/social_user_model.dart';
 import 'package:flutter_application_1/layout/modules/chats/chats_screen.dart';
 import 'package:flutter_application_1/layout/modules/feeds/feeds_screen.dart';
@@ -20,6 +21,9 @@ class SocialCubit extends Cubit<SocialState> {
   static SocialCubit get(context) => BlocProvider.of(context);
 
   SocialUserModel? userModel;
+  PostModel? postModel;
+
+  //دالة جلب بيانات المستخدم
   void getUserData() {
     emit(SocialGetUserLodingState());
     FirebaseFirestore.instance.collection('users').doc(uId).get().then(
@@ -29,7 +33,7 @@ class SocialCubit extends Cubit<SocialState> {
         emit(SocialGetUserSuccessState());
       },
     ).catchError((error) {
-      emit(SocialGetUserEroorState(error.toString()));
+      emit(SocialGetUserErrorState(error.toString()));
     });
   }
 
@@ -58,7 +62,7 @@ class SocialCubit extends Cubit<SocialState> {
     }
   }
 
-  //دالة جلب صورة
+  //دالة جلب صورة بروفايل
   var picker = ImagePicker();
   File? profileImage;
 
@@ -69,21 +73,21 @@ class SocialCubit extends Cubit<SocialState> {
       emit(SocialProfileImagePickertSuccessState());
     } else {
       print("Not image selected");
-      emit(SocialProfileImagePickertEroorState());
+      emit(SocialProfileImagePickertErrorState());
     }
   }
 
-  //دالة جلب صورة
+  //دالة جلب صورة غلاف
   File? coverImage;
 
   Future getCoverImage() async {
     final pickedFie = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFie != null) {
       coverImage = File(pickedFie.path);
-      emit(SocialCoverImagePickertEroorState());
+      emit(SocialCoverImagePickertErrorState());
     } else {
       print("Not image selected");
-      emit(SocialCoverImagePickertEroorState());
+      emit(SocialCoverImagePickertErrorState());
     }
   }
 
@@ -94,6 +98,8 @@ child: بتحرك جوا كيف
 هنا عملنا انو نصل لاخر مسار عشان اجيب الصورة واخزنها
 putFile: ابدأ عملية الرفع
  */
+//رفع صورة للبروفايل
+
   void uploadProfileImage({
     required String name,
     required String phone,
@@ -108,18 +114,20 @@ putFile: ابدأ عملية الرفع
       (value) {
         value.ref.getDownloadURL().then(
           (value) {
-          //  emit(SocialUploadProfileImagetSuccessState());
+            //  emit(SocialUploadProfileImagetSuccessState());
             print(value);
             updateUser(name: name, phone: phone, bio: bio, profile: value);
           },
         ).catchError((error) {
-          emit(SocialUploadProfileImagetEroorState());
+          emit(SocialUploadProfileImagetErrorState());
         });
       },
     ).catchError((error) {
-      emit(SocialUploadProfileImagetEroorState());
+      emit(SocialUploadProfileImagetErrorState());
     });
   }
+
+//رفع صورة للغلاف
 
   void uploadCoverImage({
     required String name,
@@ -135,16 +143,16 @@ putFile: ابدأ عملية الرفع
       (value) {
         value.ref.getDownloadURL().then(
           (value) {
-          //  emit(SocialUploadCoverImagetSuccessState());
+            //  emit(SocialUploadCoverImagetSuccessState());
             print(value);
-            updateUser(name: name, phone: phone, bio: bio,cover: value);
+            updateUser(name: name, phone: phone, bio: bio, cover: value);
           },
         ).catchError((error) {
-          emit(SocialUploadCoverImagetEroorState());
+          emit(SocialUploadCoverImagetErrorState());
         });
       },
     ).catchError((error) {
-      emit(SocialUploadCoverImagetEroorState());
+      emit(SocialUploadCoverImagetErrorState());
     });
   }
 
@@ -163,6 +171,7 @@ putFile: ابدأ عملية الرفع
   //   }
   // }
 
+//تحديث البيانات
   void updateUser({
     required String name,
     required String phone,
@@ -181,7 +190,172 @@ putFile: ابدأ عملية الرفع
         getUserData();
       },
     ).catchError((error) {
-      emit(SocialUserUpdateEroorState());
+      emit(SocialUserUpdateErrorState());
+    });
+  }
+
+//جلب صورة للبوست
+  File? postImage;
+
+  Future getpostImage() async {
+    final pickedFie = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFie != null) {
+      postImage = File(pickedFie.path);
+      emit(SocialPostImagePickertErrorState());
+    } else {
+      print("Not image selected");
+      emit(SocialPostImagePickertErrorState());
+    }
+  }
+
+//حلب بيانات البوست
+
+  void createPost({
+    required String dateTime,
+    required String text,
+    String? postImage,
+  }) {
+    emit(SocialCreatePostLodingState());
+    //طريفة عن طريق استخدام كلاس postModel
+    postModel = PostModel(
+      name: userModel!.name,
+      image: userModel!.image,
+      uId: userModel!.uId,
+      dateTime: dateTime,
+      text: text,
+      postImage: postImage ?? "",
+    );
+    FirebaseFirestore.instance
+        .collection('posts')
+        .add(
+          postModel!.toMap(),
+        )
+        .then(
+      (value) {
+        emit(SocialCreatePostSuccessState());
+      },
+    ).catchError((error) {
+      emit(SocialCreatePostErrorState());
+    });
+  }
+
+//رفع صورة للبوست
+  void uploadPostImage({
+    required String dateTime,
+    required String text,
+  }) {
+    emit(SocialCreatePostLodingState());
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('posts/${Uri.file(postImage!.path).pathSegments.last}')
+        .putFile(postImage!)
+        .then(
+      (value) {
+        value.ref.getDownloadURL().then(
+          (value) {
+            print(value);
+            createPost(
+              dateTime: dateTime,
+              text: text,
+              postImage: value,
+            );
+          },
+        ).catchError((error) {
+          emit(SocialCreatePostErrorState());
+        });
+      },
+    ).catchError((error) {
+      emit(SocialCreatePostErrorState());
+    });
+  }
+
+  void removePostImage() {
+    postImage = null;
+    emit(SocialRemovePostImageState());
+  }
+
+  //جلب بيانات البوست
+  List<PostModel> posts = [];
+  List<String> likePosts = [];
+  List<int> likeNum = [];
+  List<Map<String, dynamic>> commentNum = [];
+
+  void getPostsData() {
+    emit(SocialGetPostLodingState());
+    FirebaseFirestore.instance.collection('posts').get().then(
+      (value) {
+        value.docs.forEach(
+          (element) {
+            element.reference.collection('likes').get().then(
+              (value) {
+                likeNum.add(value.docs.length);
+                likePosts.add(element.id);
+                posts.add(PostModel.fromJson(element.data()));
+              },
+            ).catchError((error) {});
+          },
+        );
+        emit(SocialGetPostSuccessState());
+      },
+    ).catchError((error) {
+      emit(SocialGetPostErrorState(error.toString()));
+    });
+  }
+
+  //زر اللايك
+
+  void likePost(String postId) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('likes')
+        .doc(userModel!.uId)
+        .set({'like': true}).then(
+      (value) {
+        emit(SocialLikePostSuccessState());
+      },
+    ).catchError((error) {
+      emit(SocialLikePostErrorState(error.toString()));
+    });
+  }
+
+  //زر التعليق
+  /* هدول بعملوا: .orderBy('dateTime')
+      .snapshots()
+      .listen : 
+  رتبهم حسب الوقت،
+وخليني أسمع لأي تغيير يصير عليهم،
+وكل مرة يصير تغيير حدّث الليست
+   */
+void getComments(String postId) {
+  FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postId)
+      .collection('comments')
+      .orderBy('dateTime')
+      .snapshots()
+      .listen((value) {
+    commentNum = value.docs.map((e) => e.data()).toList();
+    emit(SocialGetCommentsSuccessState());
+  });
+}
+
+
+  void commentPost(String postId,String comments) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .add({ 'uId': userModel!.uId,
+        'name': userModel!.name,
+        'image': userModel!.image,
+        'comments': comments,
+        'dateTime': Timestamp.now().toString(),}).then(
+      (value) {
+        emit(SocialCommentsPostSuccessState());
+      },
+    ).catchError((error) {
+      emit(SocialCommentsPostErrorState(error.toString()));
     });
   }
 }

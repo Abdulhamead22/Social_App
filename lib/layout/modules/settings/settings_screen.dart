@@ -153,7 +153,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      navigatTo(context,  EditProfileScreen());
+                      navigatTo(context,  const EditProfileScreen());
                     },
                     child: const Icon(
                       IconBroken.Edit,
