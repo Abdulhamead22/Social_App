@@ -7,11 +7,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 Widget myDrevider() {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 8),
     child: Container(
       width: double.infinity,
       height: 2,
-      color: Colors.black,
+      color: Colors.grey,
     ),
   );
 }

@@ -19,6 +19,15 @@ class SocialUserUpdateErrorState extends SocialState {}
 
 class SocialUserUpdateLoadingState extends SocialState {}
 
+class SocialGetAllUserLodingState extends SocialState {}
+
+class SocialGetAllUserSuccessState extends SocialState {}
+
+class SocialGetAllUserErrorState extends SocialState {
+  final String error;
+  SocialGetAllUserErrorState(this.error);
+}
+
 //profile and cover state
 
 class SocialProfileImagePickertSuccessState extends SocialState {}
@@ -78,3 +87,12 @@ class SocialCommentsPostErrorState extends SocialState {
 
 class SocialGetCommentsSuccessState extends SocialState {}
 
+//chat state
+
+class SocialGetMessageSuccessState extends SocialState {}
+
+class SocialGetMessageErrorState extends SocialState {}
+
+class SocialSendMessageSuccessState extends SocialState {}
+
+class SocialSendMessageErrorState extends SocialState {}

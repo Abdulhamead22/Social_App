@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
+import 'package:flutter_application_1/layout/models/chat_model.dart';
 import 'package:flutter_application_1/layout/models/post_model.dart';
 import 'package:flutter_application_1/layout/models/social_user_model.dart';
 import 'package:flutter_application_1/layout/modules/chats/chats_screen.dart';
@@ -54,6 +55,9 @@ class SocialCubit extends Cubit<SocialState> {
     'Settings',
   ];
   void changeIndex(int index) {
+    if (index == 1) {
+      getAllUser();
+    }
     if (index == 2) {
       emit(SocialNeewPostState());
     } else {
@@ -278,7 +282,6 @@ putFile: ابدأ عملية الرفع
   List<PostModel> posts = [];
   List<String> likePosts = [];
   List<int> likeNum = [];
-  List<Map<String, dynamic>> commentNum = [];
 
   void getPostsData() {
     emit(SocialGetPostLodingState());
@@ -327,35 +330,135 @@ putFile: ابدأ عملية الرفع
 وخليني أسمع لأي تغيير يصير عليهم،
 وكل مرة يصير تغيير حدّث الليست
    */
-void getComments(String postId) {
-  FirebaseFirestore.instance
-      .collection('posts')
-      .doc(postId)
-      .collection('comments')
-      .orderBy('dateTime')
-      .snapshots()
-      .listen((value) {
-    commentNum = value.docs.map((e) => e.data()).toList();
-    emit(SocialGetCommentsSuccessState());
-  });
-}
-
-
-  void commentPost(String postId,String comments) {
+  List<Map<String, dynamic>> commentNum = [];
+  void getComments(String postId) {
     FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
         .collection('comments')
-        .add({ 'uId': userModel!.uId,
-        'name': userModel!.name,
-        'image': userModel!.image,
-        'comments': comments,
-        'dateTime': Timestamp.now().toString(),}).then(
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((value) {
+      commentNum = value.docs.map((e) => e.data()).toList();
+      emit(SocialGetCommentsSuccessState());
+    });
+  }
+
+  void commentPost(String postId, String comments) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .add({
+      'uId': userModel!.uId,
+      'name': userModel!.name,
+      'image': userModel!.image,
+      'comments': comments,
+      'dateTime': Timestamp.now().toString(),
+    }).then(
       (value) {
         emit(SocialCommentsPostSuccessState());
       },
     ).catchError((error) {
       emit(SocialCommentsPostErrorState(error.toString()));
+    });
+  }
+
+//جلب user
+  List<SocialUserModel> user = [];
+
+  void getAllUser() {
+    if (user.isEmpty) {
+      FirebaseFirestore.instance.collection('users').get().then(
+        (value) {
+          value.docs.forEach(
+            (element) {
+              if (element.data()['uId'] != userModel!.uId) {
+                user.add(SocialUserModel.fromJson(element.data()));
+              }
+            },
+          );
+          emit(SocialGetAllUserSuccessState());
+        },
+      ).catchError((error) {
+        emit(SocialGetAllUserErrorState(error.toString()));
+      });
+    }
+  }
+
+//send and recive message
+
+  void sendMassege({
+    required String text,
+    required String receiverId,
+    required String dateTime,
+  }) {
+    ChatModel model = ChatModel(
+        dateTime: dateTime,
+        senderId: userModel!.uId,
+        receiverId: receiverId,
+        text: text);
+
+//my chat
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('message')
+        .add(model.toMap())
+        .then(
+      (value) {
+        emit(SocialSendMessageSuccessState());
+      },
+    ).catchError((error) {
+      emit(SocialSendMessageErrorState());
+    });
+
+//receiver chat
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(userModel!.uId)
+        .collection('message')
+        .add(model.toMap())
+        .then(
+      (value) {
+        emit(SocialSendMessageSuccessState());
+      },
+    ).catchError((error) {
+      emit(SocialSendMessageErrorState());
+    });
+  }
+
+  //زر التعليق
+  /* هدول بعملوا: .orderBy('dateTime')
+      .snapshots()
+      .listen : 
+  رتبهم حسب الوقت،
+وخليني أسمع لأي تغيير يصير عليهم،
+وكل مرة يصير تغيير حدّث الليست
+   */
+  List<ChatModel> message = [];
+  void getMassege(String receiverId) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('message')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((value) {
+                    message = [];
+
+      value.docs.forEach(
+        (element) {
+          message.add(ChatModel.fromJson(element.data()));
+        },
+      );
+      emit(SocialGetMessageSuccessState());
     });
   }
 }

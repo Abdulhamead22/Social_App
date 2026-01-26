@@ -44,20 +44,21 @@ class NewPostScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                const Row(
+                 Row(
                   children: [
                     CircleAvatar(
                       radius: 25,
-                      backgroundImage: AssetImage(
-                        'assets/image/logo2.jpg',
+                      backgroundImage: NetworkImage(
+                        SocialCubit.get(context).userModel!.image,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Expanded(
                       child: Text(
-                        'Abdulhamead Shokri',
+                                                SocialCubit.get(context).userModel!.name,
+
                       ),
                     ),
                   ],
