@@ -95,9 +95,9 @@ class LoginScreen extends StatelessWidget {
                           onsubmit: (value) {
                             //عملتها هنا كمان عشان لما اضغط ينتقل مباشرة للي بعدها
                             if (formkey.currentState!.validate()) {
-                              // SocialLoginCubit.get(context).userLogin(
-                              //     email: emailController.text,
-                              //     password: passwordController.text);
+                              SocialLoginCubit.get(context).userLogin(
+                                  email: emailController.text,
+                                  password: passwordController.text);
                             }
                           },
                           keytype: TextInputType.visiblePassword,

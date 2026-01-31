@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/style/icon_broken.dart';
+import 'package:flutter_application_1/cache_helper.dart';
+import 'package:flutter_application_1/layout/modules/login/login_screen.dart';
+import 'package:flutter_application_1/layout/style/icon_broken.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 Widget myDrevider() {
@@ -154,15 +156,15 @@ Future<bool?> toast(String text, Color color) {
   );
 }
 
-// void signOut(context) {
-//   CacheHelper.clearData(key: 'token').then(
-//     (value) {
-//       if (value) {
-//         navigatTo(context, LoginScreen());
-//       }
-//     },
-//   );
-// }
+void signOut(context) {
+  CacheHelper.clearData(key: 'uId').then(
+    (value) {
+      if (value) {
+        navigatTo(context, const LoginScreen());
+      }
+    },
+  );
+}
 
 Container emailVerified() {
   return Container(

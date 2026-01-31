@@ -7,8 +7,6 @@ import 'package:flutter_application_1/layout/modules/chats_details/chats_details
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//https://w10.mycima.cc/play.php?vid=9dfb7e61b
-
 class ChatsScreen extends StatelessWidget {
   const ChatsScreen({super.key});
 
@@ -23,7 +21,8 @@ class ChatsScreen extends StatelessWidget {
             return ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return buildChat(context,SocialCubit.get(context).user[index]);
+                  return buildChat(
+                      context, SocialCubit.get(context).user[index]);
                 },
                 separatorBuilder: (context, index) => myDrevider(),
                 itemCount: SocialCubit.get(context).user.length);
@@ -38,7 +37,11 @@ class ChatsScreen extends StatelessWidget {
   Widget buildChat(context, SocialUserModel model) {
     return InkWell(
       onTap: () {
-        navigatTo(context,  ChatsDetailsScreen(model: model,));
+        navigatTo(
+            context,
+            ChatsDetailsScreen(
+              model: model,
+            ));
       },
       child: Padding(
         padding: const EdgeInsets.all(20.0),

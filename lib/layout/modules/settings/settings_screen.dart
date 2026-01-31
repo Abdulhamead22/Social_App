@@ -3,7 +3,7 @@ import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
 import 'package:flutter_application_1/layout/modules/edit_profile/edit_profile_screen.dart';
 import 'package:flutter_application_1/layout/modules/newpost/new_post_screen.dart';
-import 'package:flutter_application_1/style/icon_broken.dart';
+import 'package:flutter_application_1/layout/style/icon_broken.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

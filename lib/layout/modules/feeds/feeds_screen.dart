@@ -4,7 +4,7 @@ import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
 import 'package:flutter_application_1/layout/models/post_model.dart';
 import 'package:flutter_application_1/layout/modules/comment/comment_screen.dart';
-import 'package:flutter_application_1/style/icon_broken.dart';
+import 'package:flutter_application_1/layout/style/icon_broken.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,10 +84,10 @@ class FeedsScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25,
-                  backgroundImage: AssetImage(
-                    'assets/image/logo2.jpg',
+                  backgroundImage: NetworkImage(
+                    model.image,
                   ),
                 ),
                 const SizedBox(
@@ -213,9 +213,7 @@ class FeedsScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-                      
-                      },
+                      onTap: () {},
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Row(
@@ -265,10 +263,12 @@ class FeedsScreen extends StatelessWidget {
                           width: 15,
                         ),
                         MaterialButton(
-                          onPressed: () =>   navigatTo(
+                          onPressed: () => navigatTo(
                             context,
-                              CommentsScreen(postId: SocialCubit.get(context).likePosts[index],),
+                            CommentsScreen(
+                              postId: SocialCubit.get(context).likePosts[index],
                             ),
+                          ),
                           child: Text(
                             "write a comments",
                             style: Theme.of(context).textTheme.bodySmall,
@@ -280,8 +280,8 @@ class FeedsScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                     SocialCubit.get(context)
-      .getComments(SocialCubit.get(context).likePosts[index]);
+                    SocialCubit.get(context)
+                        .getComments(SocialCubit.get(context).likePosts[index]);
                     SocialCubit.get(context)
                         .likePost(SocialCubit.get(context).likePosts[index]);
                   },

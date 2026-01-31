@@ -1,11 +1,10 @@
 class ChatModel {
-  final  String dateTime;
-  final  String senderId;
-  final  String receiverId;
-  final  String text;
+  final String dateTime;
+  final String senderId;
+  final String receiverId;
+  final String text;
 
-  ChatModel(
-     {
+  ChatModel({
     required this.dateTime,
     required this.senderId,
     required this.receiverId,
@@ -14,11 +13,6 @@ class ChatModel {
 
 //بستقبل المعلومات
   factory ChatModel.fromJson(Map<String, dynamic>? json) {
-    // dateTime = json['dateTime']??'';
-    // senderId = json['senderId']??'';
-    // receiverId = json['receiverId']??'';
-    // text = json['text']??'';
-
     return ChatModel(
       dateTime: json?['dateTime'] ?? '',
       senderId: json?['senderId'] ?? '',
@@ -36,4 +30,4 @@ class ChatModel {
       'text': text,
     };
   }
- }
+}

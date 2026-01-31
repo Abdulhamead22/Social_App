@@ -21,10 +21,9 @@ class SocialLoginCubit extends Cubit<SocialLoginState> {
     )
         .then(
       (value) {
-      //  CacheHelper.saveData(key: 'uId', value: value.user!.uid);
+        //  CacheHelper.saveData(key: 'uId', value: value.user!.uid);
         emit(SocialLoginSuccesState(value.user!.uid));
         print(CacheHelper.getData(key: 'uId'));
-
       },
     ).catchError((error) {
       emit(SocialLoginErrorState(error.toString()));

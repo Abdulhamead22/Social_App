@@ -1,4 +1,3 @@
-
 abstract class SocialLoginState {}
 
 class SocialLoginInitialState extends SocialLoginState {}

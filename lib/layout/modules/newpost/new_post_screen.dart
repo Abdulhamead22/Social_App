@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
-import 'package:flutter_application_1/style/icon_broken.dart';
+import 'package:flutter_application_1/layout/style/icon_broken.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,7 +44,7 @@ class NewPostScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                 Row(
+                Row(
                   children: [
                     CircleAvatar(
                       radius: 25,
@@ -57,8 +57,7 @@ class NewPostScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                                                SocialCubit.get(context).userModel!.name,
-
+                        SocialCubit.get(context).userModel!.name,
                       ),
                     ),
                   ],

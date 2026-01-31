@@ -1,15 +1,14 @@
 class PostModel {
-   final String name;
-  final  String dateTime;
-  final  String uId;
+  final String name;
+  final String dateTime;
+  final String uId;
   // final  String postId;
 
-  final  String image;
-  final  String text;
-  final  String postImage;
+  final String image;
+  final String text;
+  final String postImage;
 
-  PostModel(
-     {
+  PostModel({
     required this.name,
     required this.dateTime,
     required this.image,
@@ -17,19 +16,10 @@ class PostModel {
     required this.postImage,
     required this.uId,
     // required this.postId,
-
   });
 
 //بستقبل المعلومات
   factory PostModel.fromJson(Map<String, dynamic>? json) {
-    // name = json['name']??'';
-    // dateTime = json['dateTime']??'';
-    // uId = json['uId']??'';
-    // image = json['image']??'';
-    // text = json['text']??'';
-    // postImage = json['postImage']??'';
-
-    // isEmailVerified = json?['isEmailVerified']??'';
     return PostModel(
       uId: json?['uId'] ?? '',
       name: json?['name'] ?? '',
@@ -37,8 +27,6 @@ class PostModel {
       image: json?['image'] ?? '',
       text: json?['text'] ?? '',
       postImage: json?['postImage'] ?? '',
-      // // postId: json?['postId'] ?? '',
-
     );
   }
 
@@ -51,7 +39,6 @@ class PostModel {
       'image': image,
       'text': text,
       'postImage': postImage,
-      // 'postId':postId,
     };
   }
- }
+}

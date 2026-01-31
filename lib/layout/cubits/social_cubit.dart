@@ -88,7 +88,7 @@ class SocialCubit extends Cubit<SocialState> {
     final pickedFie = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFie != null) {
       coverImage = File(pickedFie.path);
-      emit(SocialCoverImagePickertErrorState());
+      emit(SocialCoverImagePickertSuccessState());
     } else {
       print("Not image selected");
       emit(SocialCoverImagePickertErrorState());
@@ -118,7 +118,6 @@ putFile: ابدأ عملية الرفع
       (value) {
         value.ref.getDownloadURL().then(
           (value) {
-            //  emit(SocialUploadProfileImagetSuccessState());
             print(value);
             updateUser(name: name, phone: phone, bio: bio, profile: value);
           },
@@ -147,7 +146,6 @@ putFile: ابدأ عملية الرفع
       (value) {
         value.ref.getDownloadURL().then(
           (value) {
-            //  emit(SocialUploadCoverImagetSuccessState());
             print(value);
             updateUser(name: name, phone: phone, bio: bio, cover: value);
           },
@@ -183,6 +181,8 @@ putFile: ابدأ عملية الرفع
     String? cover,
     String? profile,
   }) {
+          emit(SocialUserUpdateLoadingState());
+
     FirebaseFirestore.instance.collection('users').doc(userModel!.uId).update({
       'name': name,
       'phone': phone,
@@ -192,6 +192,7 @@ putFile: ابدأ عملية الرفع
     }).then(
       (value) {
         getUserData();
+        
       },
     ).catchError((error) {
       emit(SocialUserUpdateErrorState());
@@ -205,7 +206,7 @@ putFile: ابدأ عملية الرفع
     final pickedFie = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFie != null) {
       postImage = File(pickedFie.path);
-      emit(SocialPostImagePickertErrorState());
+      emit(SocialPostImagePickertSuccessState());
     } else {
       print("Not image selected");
       emit(SocialPostImagePickertErrorState());
@@ -292,7 +293,6 @@ putFile: ابدأ عملية الرفع
         .listen(
       (event) async {
         posts = [];
-        likeNum = [];
         likePosts = [];
 // اعملت هادا عشان كل بوست ينتظر اللايكات تبعه قبل الإضافة.
         event.docs.forEach(
@@ -311,6 +311,7 @@ putFile: ابدأ عملية الرفع
         emit(SocialGetPostSuccessState());
       },
     );
+    //طريقة ثانية
     // FirebaseFirestore.instance.collection('posts').get().then(
     //   (value) {
     //     value.docs.forEach(

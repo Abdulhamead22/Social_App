@@ -14,43 +14,42 @@ class CommentsScreen extends StatelessWidget {
     SocialCubit.get(context).getComments(postId);
 
     return BlocConsumer<SocialCubit, SocialState>(
-            builder: (context, state) {
-              var comments = SocialCubit.get(context).commentNum;
-          
-              return Scaffold(
-                appBar: AppBar(title: const Text('Comments')),
-                body: Column(
-                  children: [
-                    Expanded(
-                      child: ListView.separated(
-                        //الاثنين الي تحت عملتهم عشان انا وسط scrolView
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: comments.length,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const SizedBox(
-                          height: 10,
-                        ),
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(comments[index]['image']),
-                            ),
-                            title: Text(comments[index]['name']),
-                            subtitle: Text(comments[index]['comments']),
-                          );
-                        },
+      builder: (context, state) {
+        var comments = SocialCubit.get(context).commentNum;
+
+        return Scaffold(
+          appBar: AppBar(title: const Text('Comments')),
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  //الاثنين الي تحت عملتهم عشان انا وسط scrolView
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: comments.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: 10,
+                  ),
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(comments[index]['image']),
                       ),
-                    ),  const Spacer(),
-          buildComments(context)
-                  ],
+                      title: Text(comments[index]['name']),
+                      subtitle: Text(comments[index]['comments']),
+                    );
+                  },
                 ),
-              );
-            },
-            listener: (context, state) {},
-          );
-        
-        
+              ),
+              const Spacer(),
+              buildComments(context)
+            ],
+          ),
+        );
+      },
+      listener: (context, state) {},
+    );
   }
 
   buildComments(context) {

@@ -4,7 +4,7 @@ import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
 import 'package:flutter_application_1/layout/models/chat_model.dart';
 import 'package:flutter_application_1/layout/models/social_user_model.dart';
-import 'package:flutter_application_1/style/icon_broken.dart';
+import 'package:flutter_application_1/layout/style/icon_broken.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable

@@ -24,12 +24,10 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SocialRegisterCubit(),
       child: BlocConsumer<SocialRegisterCubit, SocialRegisterState>(
-          listener: (context, state) {
-      if (state is SocialCreateUserSuccesState) {
-        navigatFinish(context,const SocialLayout() );
-      } else {
-        
-      }
+        listener: (context, state) {
+          if (state is SocialCreateUserSuccesState) {
+            navigatFinish(context, const SocialLayout());
+          } else {}
         },
         builder: (context, state) {
           return Scaffold(
@@ -135,11 +133,11 @@ class RegisterScreen extends StatelessWidget {
                               function: () {
                                 if (formkey.currentState!.validate()) {
                                   SocialRegisterCubit.get(context).userRegister(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      name: nameController.text,
-                                      phone: phoneController.text,
-                                      );
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    name: nameController.text,
+                                    phone: phoneController.text,
+                                  );
                                 }
                               },
                               text: "Register",
@@ -158,7 +156,6 @@ class RegisterScreen extends StatelessWidget {
             ),
           );
         },
-      
       ),
     );
   }

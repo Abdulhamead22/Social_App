@@ -5,7 +5,7 @@ import 'package:flutter_application_1/cache_helper.dart';
 import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/modules/login/login_screen.dart';
 import 'package:flutter_application_1/layout/social_layout.dart';
-import 'package:flutter_application_1/style/theam.dart';
+import 'package:flutter_application_1/layout/style/theam.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,9 +37,6 @@ void main() async {
   });
 //والتطبيق مسكر شو بعطيني
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-//await FirebaseAuth.instance.signOut();
-//await CacheHelper.clearData(key: 'uId');
 
   Widget? widget;
   //عشان احفظ الوصول او يعني عشان ما اضل يعيد الدخول لصفحة التسجيل كل ما اعيد البرنامج

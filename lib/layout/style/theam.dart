@@ -85,7 +85,7 @@ ThemeData darkTheam = ThemeData(
       height: 1.3,
     ),
     headlineMedium: TextStyle(
-    //  fontWeight: FontWeight.w600,
+      //  fontWeight: FontWeight.w600,
       fontSize: 18,
       height: 1.5,
     ),

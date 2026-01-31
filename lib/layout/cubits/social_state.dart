@@ -19,8 +19,6 @@ class SocialUserUpdateErrorState extends SocialState {}
 
 class SocialUserUpdateLoadingState extends SocialState {}
 
-class SocialGetAllUserLodingState extends SocialState {}
-
 class SocialGetAllUserSuccessState extends SocialState {}
 
 class SocialGetAllUserErrorState extends SocialState {
@@ -38,11 +36,7 @@ class SocialCoverImagePickertSuccessState extends SocialState {}
 
 class SocialCoverImagePickertErrorState extends SocialState {}
 
-class SocialUploadProfileImagetSuccessState extends SocialState {}
-
 class SocialUploadProfileImagetErrorState extends SocialState {}
-
-class SocialUploadCoverImagetSuccessState extends SocialState {}
 
 class SocialUploadCoverImagetErrorState extends SocialState {}
 
@@ -90,8 +84,6 @@ class SocialGetCommentsSuccessState extends SocialState {}
 //chat state
 
 class SocialGetMessageSuccessState extends SocialState {}
-
-class SocialGetMessageErrorState extends SocialState {}
 
 class SocialSendMessageSuccessState extends SocialState {}
 
