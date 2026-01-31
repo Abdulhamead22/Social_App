@@ -285,9 +285,17 @@ putFile: ابدأ عملية الرفع
 
   void getPostsData() {
     emit(SocialGetPostLodingState());
-    FirebaseFirestore.instance.collection('posts').get().then(
-      (value) {
-        value.docs.forEach(
+    FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen(
+      (event) async {
+        posts = [];
+        likeNum = [];
+        likePosts = [];
+// اعملت هادا عشان كل بوست ينتظر اللايكات تبعه قبل الإضافة.
+        event.docs.forEach(
           (element) {
             element.reference.collection('likes').get().then(
               (value) {
@@ -295,14 +303,32 @@ putFile: ابدأ عملية الرفع
                 likePosts.add(element.id);
                 posts.add(PostModel.fromJson(element.data()));
               },
-            ).catchError((error) {});
+            ).catchError((error) {
+              emit(SocialGetPostErrorState(error.toString()));
+            });
           },
         );
         emit(SocialGetPostSuccessState());
       },
-    ).catchError((error) {
-      emit(SocialGetPostErrorState(error.toString()));
-    });
+    );
+    // FirebaseFirestore.instance.collection('posts').get().then(
+    //   (value) {
+    //     value.docs.forEach(
+    //       (element) {
+    //         element.reference.collection('likes').get().then(
+    //           (value) {
+    //             likeNum.add(value.docs.length);
+    //             likePosts.add(element.id);
+    //             posts.add(PostModel.fromJson(element.data()));
+    //           },
+    //         ).catchError((error) {});
+    //       },
+    //     );
+    //     emit(SocialGetPostSuccessState());
+    //   },
+    // ).catchError((error) {
+    //   emit(SocialGetPostErrorState(error.toString()));
+    // });
   }
 
   //زر اللايك
@@ -432,14 +458,6 @@ putFile: ابدأ عملية الرفع
     });
   }
 
-  //زر التعليق
-  /* هدول بعملوا: .orderBy('dateTime')
-      .snapshots()
-      .listen : 
-  رتبهم حسب الوقت،
-وخليني أسمع لأي تغيير يصير عليهم،
-وكل مرة يصير تغيير حدّث الليست
-   */
   List<ChatModel> message = [];
   void getMassege(String receiverId) {
     FirebaseFirestore.instance
@@ -451,7 +469,7 @@ putFile: ابدأ عملية الرفع
         .orderBy('dateTime')
         .snapshots()
         .listen((value) {
-                    message = [];
+      message = [];
 
       value.docs.forEach(
         (element) {
@@ -461,4 +479,6 @@ putFile: ابدأ عملية الرفع
       emit(SocialGetMessageSuccessState());
     });
   }
+
+
 }

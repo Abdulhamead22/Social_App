@@ -17,6 +17,7 @@ class SocialUserModel {
     required this.bio,
     required this.email, required this.uId,
     this.isEmailVerified,
+
   });
 
 //بستقبل المعلومات
@@ -38,6 +39,7 @@ class SocialUserModel {
       image: json?['image'] ?? '',
       cover: json?['cover'] ?? '',
       bio: json?['bio'] ?? '',
+
       isEmailVerified: json?['isEmailVerified'] ?? false,
     );
   }
@@ -52,6 +54,7 @@ class SocialUserModel {
       'image': image,
       'cover': cover,
       'bio': bio,
+
       'isEmailVerified': isEmailVerified,
     };
   }

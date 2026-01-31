@@ -7,7 +7,7 @@ import 'package:flutter_application_1/layout/modules/chats_details/chats_details
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
+//https://w10.mycima.cc/play.php?vid=9dfb7e61b
 
 class ChatsScreen extends StatelessWidget {
   const ChatsScreen({super.key});

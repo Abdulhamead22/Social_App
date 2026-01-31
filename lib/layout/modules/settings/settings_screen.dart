@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/layout/cubits/social_cubit.dart';
 import 'package:flutter_application_1/layout/cubits/social_state.dart';
 import 'package:flutter_application_1/layout/modules/edit_profile/edit_profile_screen.dart';
+import 'package:flutter_application_1/layout/modules/newpost/new_post_screen.dart';
 import 'package:flutter_application_1/style/icon_broken.dart';
 import 'package:flutter_application_1/widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -146,14 +147,17 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                        onPressed: () {}, child: const Text('Add Post')),
+                        onPressed: () {
+                          navigatTo(context, const NewPostScreen());
+                        },
+                        child: const Text('Add Post')),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      navigatTo(context,  const EditProfileScreen());
+                      navigatTo(context, const EditProfileScreen());
                     },
                     child: const Icon(
                       IconBroken.Edit,
