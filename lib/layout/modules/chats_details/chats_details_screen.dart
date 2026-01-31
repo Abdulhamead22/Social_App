@@ -11,14 +11,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ChatsDetailsScreen extends StatelessWidget {
   ChatsDetailsScreen({super.key, required this.model});
   final SocialUserModel model;
-  TextEditingController massegeController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       //اعملت builder جديد عشان نا بدي ابعت حاجة قبل ما يبدأ consumer
       builder: (context) {
-        SocialCubit.get(context).getMassege(model.uId);
+        SocialCubit.get(context).getmessage(model.uId);
 
         return BlocConsumer<SocialCubit, SocialState>(
           listener: (context, state) {},
@@ -69,14 +69,14 @@ class ChatsDetailsScreen extends StatelessWidget {
                               height: 10,
                             ),
                             itemBuilder: (context, index) {
-                              var massege =
+                              var message =
                                   SocialCubit.get(context).message[index];
 
-                              if (model.uId == massege.receiverId) {
-                                return buildMyMassege(context, index, massege);
+                              if (model.uId == message.receiverId) {
+                                return buildMymessage(context, index, message);
                               } else {
-                                return buildReciverMassege(
-                                    context, index, massege);
+                                return buildRecivermessage(
+                                    context, index, message);
                               }
                             },
                           ),
@@ -97,7 +97,7 @@ class ChatsDetailsScreen extends StatelessWidget {
     );
   }
 
-  buildReciverMassege(
+  buildRecivermessage(
     context,
     index,
     ChatModel model,
@@ -121,7 +121,7 @@ class ChatsDetailsScreen extends StatelessWidget {
     );
   }
 
-  buildMyMassege(context, index, ChatModel model) {
+  buildMymessage(context, index, ChatModel model) {
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       child: Container(
@@ -156,7 +156,7 @@ class ChatsDetailsScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: TextField(
-                controller: massegeController,
+                controller: messageController,
                 decoration: const InputDecoration(
                   hintText: 'type your message here ...',
                   border: InputBorder.none,
@@ -167,8 +167,8 @@ class ChatsDetailsScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(IconBroken.Send),
             onPressed: () {
-              SocialCubit.get(context).sendMassege(
-                  text: massegeController.text,
+              SocialCubit.get(context).sendmessage(
+                  text: messageController.text,
                   receiverId: model.uId, //ركز هادا ال id الي دخلت عليه مش تبعي
                   dateTime: DateTime.now().toString());
             },

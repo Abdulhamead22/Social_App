@@ -414,7 +414,7 @@ putFile: ابدأ عملية الرفع
 
 //send and recive message
 
-  void sendMassege({
+  void sendmessage({
     required String text,
     required String receiverId,
     required String dateTime,
@@ -459,7 +459,7 @@ putFile: ابدأ عملية الرفع
   }
 
   List<ChatModel> message = [];
-  void getMassege(String receiverId) {
+  void getmessage(String receiverId) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(userModel!.uId)
@@ -479,6 +479,4 @@ putFile: ابدأ عملية الرفع
       emit(SocialGetMessageSuccessState());
     });
   }
-
-
 }
