@@ -81,7 +81,25 @@ social_App/
 └─ ...
 ```
 
+## 📸 Screenshots
 
+### Login Screen
+![Login](assets/image/login.png)
+
+### Signup Screen
+![Signup](assets/image/signup.png)
+
+### Home Screen
+![Home](assets/image/home.png)
+
+### Post Screen
+![Post](assets/image/post.png)
+
+### Chat Screen
+![Chat](assets/image/chat.png)
+
+### Edit Profile Screen
+![Edit Profile](assets/image/edit_profile.png)
 
 ## Author
 
